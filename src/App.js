@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import "./App.css";
+import ChatContainer from "./components/containers/ChatContainer";
+import { socket } from "./utils/socket";
 
 function App() {
+  useEffect(() => {
+    function onConnect() {
+      console.log("Connected to ", socket.id);
+    }
+    function onDisconnect() {
+      console.log("Disconnected");
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex justify-center">
+      <ChatContainer />
     </div>
   );
 }
